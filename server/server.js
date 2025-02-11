@@ -12,11 +12,11 @@ mongoose
   .catch((err) => console.error("MongoDB connection error:", err));
 
 app.get("/api/user/:id", async (req, res, next) => {
-  try{
-    const id = req.params.id
-    const user = await UserModel.find({_id: id});
+  try {
+    const id = req.params.id;
+    const user = await UserModel.find({ _id: id });
     res.json(user);
-  } catch(err) {
+  } catch (err) {
     next(err);
   }
 });
@@ -47,7 +47,7 @@ app.patch("/api/user/:id", async (req, res, next) => {
 app.delete("/api/user/:id", async (req, res, next) => {
   try {
     const user = await UserModel.findById(req.params.id);
-    const deletedUser = await user.deleteOne({_id: user._id});
+    const deletedUser = await user.deleteOne({ _id: user._id });
     res.json(deletedUser);
   } catch (err) {
     next(err);
@@ -59,10 +59,10 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: "Internal Server Error", error: err.message });
 });
 
-
-app.get("/api/games", async (req, res) => {
+app.get("/api/games/:page", async (req, res) => {
+  const page = req.params.page;
   try {
-    const games = await fetchGames();
+    const games = await fetchGames(page);
     res.json(games);
   } catch (error) {
     res.status(500).json({ message: "Error fetching games", error: error });

@@ -6,6 +6,8 @@ import { fetchGames } from "../client/src/utils/fetchGames.js";
 const app = express();
 const PORT = 3005;
 
+app.use(express.json());
+
 mongoose
   .connect("mongodb+srv://dadigecse:admin@wishlist-project.tmtyf.mongodb.net/")
   .then(() => console.log("Connected to MongoDB"))

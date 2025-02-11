@@ -26,9 +26,12 @@ app.get("/api/user/:id", async (req, res, next) => {
 app.get("/api/login", async (req, res, next) => {
   try {
     const { username, password } = req.query;
-    const user = await UserModel.findOne({ username: username, password: password });
-    if(!user){
-      res.status(400).json({ message: "Wrong username or password!"});
+    const user = await UserModel.findOne({
+      username: username,
+      password: password,
+    });
+    if (!user) {
+      res.status(400).json({ message: "Wrong username or password!" });
     }
     res.json(user);
   } catch (err) {
@@ -40,8 +43,14 @@ app.post("/api/user", async (req, res, next) => {
   try {
     const createdUser = req.body;
     const users = await UserModel.find({});
-    if(users.find(user => user.username === createdUser.username || user.email === createdUser.email)){
-      res.status(400).json({ message: "Username or email already exists!"});
+    if (
+      users.find(
+        (user) =>
+          user.username === createdUser.username ||
+          user.email === createdUser.email
+      )
+    ) {
+      res.status(400).json({ message: "Username or email already exists!" });
     }
     const savedUser = await UserModel.create(createdUser);
     res.json(savedUser);
@@ -54,8 +63,13 @@ app.patch("/api/user/:id", async (req, res, next) => {
   try {
     const users = await UserModel.find({});
     const newUser = req.body;
-    if(users.find(user => user.email === newUser.email || user.username === newUser.username)){
-      res.status(400).json({ message: "Username or email already exists!"});
+    if (
+      users.find(
+        (user) =>
+          user.email === newUser.email || user.username === newUser.username
+      )
+    ) {
+      res.status(400).json({ message: "Username or email already exists!" });
     }
     const updatedUser = await UserModel.findOneAndUpdate(
       { _id: req.params.id },
@@ -65,6 +79,25 @@ app.patch("/api/user/:id", async (req, res, next) => {
     res.json(updatedUser);
   } catch (err) {
     next(err);
+  }
+});
+
+app.patch("/api/user/:id/:gameId", async (req, res) => {
+  const userId = req.params.id;
+  const gameId = req.params.gameId;
+  try {
+    const user = await UserModel.findById(userId);
+    user.wishlist.push(gameId);
+    const updatedUser = await UserModel.findOneAndUpdate(
+      { _id: userId },
+      { $set: { wishlist: user.wishlist } },
+      { new: true }
+    );
+  console.log(updatedUser);
+
+  } catch (err) {
+    //need to update latter to error handling with next
+    console.log(err);
   }
 });
 
@@ -80,7 +113,9 @@ app.delete("/api/user/:id", async (req, res, next) => {
 
 app.use((err, req, res, next) => {
   console.error(err);
-  res.status(500).json({ message: "Internal Server Error", error: err.message });
+  res
+    .status(500)
+    .json({ message: "Internal Server Error", error: err.message });
 });
 
 app.get("/api/games/:page", async (req, res) => {

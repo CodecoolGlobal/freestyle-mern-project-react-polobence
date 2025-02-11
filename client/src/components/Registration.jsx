@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 function Registration() {
   const [name, setName] = useState("");
@@ -7,9 +7,24 @@ function Registration() {
   const [password, setPassword] = useState("");
   const [dateOfBirth, setdateOfBirth] = useState(null);
 
-async function handleSubmit() {
-    //write the save
-}
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const user = {
+      name: name,
+      username: username,
+      password: password,
+      email: email,
+      dateOfBirth: dateOfBirth
+    }
+    const createdUser = await fetch("/api/user", {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(user)
+    })
+    console.log(await createdUser.json());
+  }
 
   return (
     <div className="registration">

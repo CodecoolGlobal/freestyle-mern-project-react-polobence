@@ -13,3 +13,16 @@ export async function fetchGames(page) {
     throw error;
   }
 }
+
+export async function fetchGameById(id) {
+  try {
+    const response = await fetch(`${API_URL}/${id}?key=${API_KEY}`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch game");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}

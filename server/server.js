@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import UserModel from "./model/user.model.js";
-import { fetchGames } from "../client/src/utils/fetchGames.js";
+import { fetchGameById, fetchGames } from "../client/src/utils/fetchGames.js";
 
 const app = express();
 const PORT = 3005;
@@ -68,6 +68,16 @@ app.get("/api/games/:page", async (req, res) => {
     res.json(games);
   } catch (error) {
     res.status(500).json({ message: "Error fetching games", error: error });
+  }
+});
+
+app.get("/api/games/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const game = await fetchGameById(id);
+    res.json(game);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching game", error: error });
   }
 });
 

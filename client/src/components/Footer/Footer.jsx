@@ -11,8 +11,8 @@ function Footer() {
       </div>
       <div className="navigation">
         <h4>Follow us:</h4>
-        <ul>
-          <li>Facebook</li>
+        <ul >
+          <li >Facebook</li>
           <li>Instagram</li>
           <li>X</li>
         </ul>

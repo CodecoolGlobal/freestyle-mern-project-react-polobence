@@ -29,7 +29,7 @@ function EditAccountInformation({ user }) {
           setError(updatedUser.message)
           return;
         }
-        navigate(`/u/account/${updatedUser._id}`)
+        navigate(`/u/wishlist/${updatedUser._id}`)
       }
 
   return (

@@ -1,10 +1,12 @@
 import { Outlet, Link } from "react-router-dom";
 import { useUser } from "../context/UserContext";
+import Footer from "../components/Footer/Footer.jsx"
 
 const Menu = () => {
   const { userId } = useUser();
 
   return (
+    <>
     <div className="menu">
       <nav>
         <Link to={`/u/games`}>
@@ -17,8 +19,12 @@ const Menu = () => {
           {userId ? <button>My Account</button> : <button disabled>My Account</button>}
         </Link>
       </nav>
-      <Outlet />
+      <div className="main">
+        <Outlet />
+      </div>
     </div>
+    <Footer />
+    </>
   );
 };
 

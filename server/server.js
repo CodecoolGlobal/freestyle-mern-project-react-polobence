@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-import UserModel from "./model/user.model.js";
+import UserModel from "./model/User.model.js";
 import { fetchGames } from "../client/src/utils/fetchGames.js";
 
 const app = express();
@@ -23,10 +23,27 @@ app.get("/api/user/:id", async (req, res, next) => {
   }
 });
 
+app.get("/api/login", async (req, res, next) => {
+  try{
+    const {username, password} = req.query;
+    const user = await UserModel.findOne({username: username, password: password});
+    if(!user){
+      res.status(400).json({ message: "Username or password are incorrect!"});
+    }
+    res.json(user);
+  } catch(err) {
+    next(err);
+  }
+});
+
 app.post("/api/user", async (req, res, next) => {
   try {
-    const user = req.body;
-    const savedUser = await UserModel.create(user);
+    const createdUser = req.body;
+    const users = await UserModel.find({});
+    if(users.find(user => user.username === createdUser.username || user.email === createdUser.email)){
+      res.status(400).json({ message: "Username or email already exists!"});
+    }
+    const savedUser = await UserModel.create(createdUser);
     res.json(savedUser);
   } catch (err) {
     next(err);
@@ -35,9 +52,14 @@ app.post("/api/user", async (req, res, next) => {
 
 app.patch("/api/user/:id", async (req, res, next) => {
   try {
+    const users = await UserModel.find({});
+    const newUser = req.body;
+    if(users.find(user => user.email === newUser.email || user.username === newUser.username)){
+      res.status(400).json({ message: "Username or email already exists!"});
+    }
     const updatedUser = await UserModel.findOneAndUpdate(
       { _id: req.params.id },
-      { $set: { ...req.body } },
+      { $set: { ...newUser } },
       { new: true }
     );
     res.json(updatedUser);

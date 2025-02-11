@@ -1,17 +1,40 @@
-import React from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Error from "../components/Error";
 
 function EditAccountInformation({ user }) {
       const [newName, setNewName] = useState(user.name);
       const [newEmail, setNewEmail] = useState(user.email);
       const [newUsername, setNewUsername] = useState(user.username);
       const [newPassword, setNewPassword] = useState(user.password);
+      const [error, setError] = useState(null);
+      const navigate = useNavigate();
 
-      async function handleSubmit(params) {
-    //write the save change
-        
+      async function handleSubmit(e) {
+        e.preventDefault();
+        const changedUser = {
+          name: newName,
+          username: newUsername,
+          password: newPassword,
+          email: newEmail
+        }
+        const updatedUser = await fetch(`/api/user/${user._id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(changedUser)
+        }).then(res => res.json());
+        if(updatedUser.message){
+          setError(updatedUser.message)
+          return;
+        }
+        navigate(`/u/account/${updatedUser._id}`)
       }
 
   return (
+    <>
+    {error && <Error errorMessage={error}/>}
     <div className="editAccount">
       <form action="submit" onSubmit={handleSubmit}>
         <label>
@@ -37,6 +60,7 @@ function EditAccountInformation({ user }) {
         </label>
       </form>
     </div>
+    </>
   );
 }
 

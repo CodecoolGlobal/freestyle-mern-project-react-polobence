@@ -27,6 +27,9 @@ app.get("/api/login", async (req, res, next) => {
   try {
     const { username, password } = req.query;
     const user = await UserModel.findOne({ username: username, password: password });
+    if(!user){
+      res.status(400).json({ message: "Wrong username or password!"});
+    }
     res.json(user);
   } catch (err) {
     next(err);

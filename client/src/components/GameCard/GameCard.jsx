@@ -14,8 +14,8 @@ function GameCard({ game }) {
   const { userId } = useParams();
 
   async function handleAddWish() {
+    setAdded(true);
     const gameId = game.id.toString();
-
     const updatedUser = await fetch(`/api/user/addGame/${userId}`, {
       method: "PATCH",
       headers: {
@@ -28,9 +28,6 @@ function GameCard({ game }) {
 
     if (updatedUser.message) {
       setError(updatedUser.message);
-      setAdded(false);
-    } else {
-      setAdded(true);
     }
   }
 
@@ -45,7 +42,7 @@ function GameCard({ game }) {
       <Platforms game={game} />
       <Tags game={game} />
       {error && <Error errorMessage={error} />}
-      {added && <AddedGameMessage />}
+      {added && !error && <AddedGameMessage />}
       <button onClick={handleAddWish}>Add game to wishlist</button>
     </div>
   );

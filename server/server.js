@@ -96,6 +96,7 @@ app.patch("/api/user/addGame/:id", async (req, res) => {
         { $set: { wishlist: user.wishlist } },
         { new: true }
       );
+      res.status(200).json(updatedUser);
     } else {
       res
         .status(400)

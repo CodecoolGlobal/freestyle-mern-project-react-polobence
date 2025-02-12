@@ -1,4 +1,4 @@
-import "./Footer.css"
+import "./Footer.css";
 
 function Footer() {
   return (
@@ -11,22 +11,17 @@ function Footer() {
       </div>
       <div className="navigation">
         <h4>Follow us:</h4>
-        <ul >
-          <li >Facebook</li>
+        <ul>
+          <li>Facebook</li>
           <li>Instagram</li>
           <li>X</li>
         </ul>
       </div>
       <div className="copyrights">
-        <h4>©2025 Games' WishMaster</h4>
+        <h4>©2025 Games&apos; WishMaster</h4>
       </div>
     </div>
   );
 }
 
 export default Footer;
-
-
-
-
-

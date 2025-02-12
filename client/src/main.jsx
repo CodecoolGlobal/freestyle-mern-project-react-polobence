@@ -3,13 +3,12 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import { UserProvider } from "./context/UserContext.jsx";
-import Registration from './Pages/Registration.jsx'
-import Login from './Pages/Login.jsx'
+import Registration from "./Pages/Registration.jsx";
+import Login from "./Pages/Login.jsx";
 import Menu from "./Pages/Menu.jsx";
-import Games from "./components/Games/Games.jsx"
-import EditAccountInformation from "./Pages/EditAccountInformation.jsx";
-
-
+import Games from "./components/Games/Games.jsx";
+// import EditAccountInformation from "./Pages/EditAccountInformation.jsx";
+import WishList from "./Pages/WishList/WishList.jsx";
 
 const router = createBrowserRouter([
   {
@@ -18,7 +17,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/register",
-    element: <Registration />
+    element: <Registration />,
   },
   {
     path: "/u",
@@ -26,17 +25,17 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/u/games",
-        element: <Games />
+        element: <Games />,
       },
       {
-        path: "/u/wishlist/:id",
-        element: <Registration />
+        path: "/u/wishlist/:userID",
+        element: <WishList />,
       },
       {
         path: "/u/account/:id",
-        element: <Registration />
+        element: <Registration />,
       },
-    ], 
+    ],
   },
 ]);
 

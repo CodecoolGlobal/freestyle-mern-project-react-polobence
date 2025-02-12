@@ -16,7 +16,7 @@ mongoose
 app.get("/api/user/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
-    const user = await UserModel.find({ _id: id });
+    const user = await UserModel.findById({ _id: id });
     res.json(user);
   } catch (err) {
     next(err);
@@ -27,8 +27,8 @@ app.get("/api/login", async (req, res, next) => {
   try {
     const { username, password } = req.query;
     const user = await UserModel.findOne({ username: username, password: password });
-    if(!user){
-      res.status(400).json({ message: "Wrong username or password!"});
+    if (!user) {
+      res.status(400).json({ message: "Wrong username or password!" });
     }
     res.json(user);
   } catch (err) {
@@ -40,8 +40,12 @@ app.post("/api/user", async (req, res, next) => {
   try {
     const createdUser = req.body;
     const users = await UserModel.find({});
-    if(users.find(user => user.username === createdUser.username || user.email === createdUser.email)){
-      res.status(400).json({ message: "Username or email already exists!"});
+    if (
+      users.find(
+        (user) => user.username === createdUser.username || user.email === createdUser.email
+      )
+    ) {
+      res.status(400).json({ message: "Username or email already exists!" });
     }
     const savedUser = await UserModel.create(createdUser);
     res.json(savedUser);
@@ -54,8 +58,8 @@ app.patch("/api/user/:id", async (req, res, next) => {
   try {
     const users = await UserModel.find({});
     const newUser = req.body;
-    if(users.find(user => user.email === newUser.email || user.username === newUser.username)){
-      res.status(400).json({ message: "Username or email already exists!"});
+    if (users.find((user) => user.email === newUser.email || user.username === newUser.username)) {
+      res.status(400).json({ message: "Username or email already exists!" });
     }
     const updatedUser = await UserModel.findOneAndUpdate(
       { _id: req.params.id },
@@ -93,7 +97,7 @@ app.get("/api/games/:page", async (req, res) => {
   }
 });
 
-app.get("/api/games/:id", async (req, res) => {
+app.get("/api/games/solo/:id", async (req, res) => {
   const id = req.params.id;
   try {
     const game = await fetchGameById(id);

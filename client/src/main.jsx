@@ -7,7 +7,7 @@ import Registration from "./Pages/Registration.jsx";
 import Login from "./Pages/Login.jsx";
 import Menu from "./Pages/Menu.jsx";
 import Games from "./components/Games/Games.jsx";
-// import EditAccountInformation from "./Pages/EditAccountInformation.jsx";
+import Account from "./Pages/Account.jsx";
 import WishList from "./Pages/WishList/WishList.jsx";
 
 const router = createBrowserRouter([
@@ -24,7 +24,7 @@ const router = createBrowserRouter([
     element: <Menu />,
     children: [
       {
-        path: "/u/games",
+        path: "/u/games/:userId",
         element: <Games />,
       },
       {
@@ -33,7 +33,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/u/account/:id",
-        element: <Registration />,
+        element: <Account />,
       },
     ],
   },

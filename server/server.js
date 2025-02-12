@@ -1,7 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
 import UserModel from "./model/User.model.js";
-import { fetchGameById, fetchGames } from "../client/src/utils/fetchGames.js";
+import { fetchGameById, fetchGames } from "./utilities/fetchGames.js";
+import { checkIfNewGame } from "./utilities/checkIfNewGame.js";
 
 const app = express();
 const PORT = 3005;
@@ -29,6 +30,7 @@ app.get("/api/login", async (req, res, next) => {
     const user = await UserModel.findOne({ username: username, password: password });
     if (!user) {
       res.status(400).json({ message: "Wrong username or password!" });
+      return;
     }
     res.json(user);
   } catch (err) {
@@ -46,6 +48,7 @@ app.post("/api/user", async (req, res, next) => {
       )
     ) {
       res.status(400).json({ message: "Username or email already exists!" });
+      return;
     }
     const savedUser = await UserModel.create(createdUser);
     res.json(savedUser);
@@ -58,8 +61,15 @@ app.patch("/api/user/:id", async (req, res, next) => {
   try {
     const users = await UserModel.find({});
     const newUser = req.body;
-    if (users.find((user) => user.email === newUser.email || user.username === newUser.username)) {
+    if (
+      users.find(
+        (user) =>
+          req.params.id !== user._id.toString() &&
+          (user.email === newUser.email || user.username === newUser.username)
+      )
+    ) {
       res.status(400).json({ message: "Username or email already exists!" });
+      return;
     }
     const updatedUser = await UserModel.findOneAndUpdate(
       { _id: req.params.id },
@@ -69,6 +79,29 @@ app.patch("/api/user/:id", async (req, res, next) => {
     res.json(updatedUser);
   } catch (err) {
     next(err);
+  }
+});
+
+app.patch("/api/user/addGame/:id", async (req, res) => {
+  const userId = req.params.id;
+  const gameId = req.body.gameId;
+
+  try {
+    const user = await UserModel.findById(userId);
+    if (checkIfNewGame(user, gameId)) {
+      user.wishlist.push(gameId);
+      const updatedUser = await UserModel.findOneAndUpdate(
+        { _id: userId },
+        { $set: { wishlist: user.wishlist } },
+        { new: true }
+      );
+      res.status(200).json(updatedUser);
+    } else {
+      res.status(400).json({ message: "This game is already on your wishlist" });
+    }
+  } catch (err) {
+    //need to update latter to error handling with next
+    console.log(err);
   }
 });
 

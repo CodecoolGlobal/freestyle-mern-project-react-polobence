@@ -50,14 +50,14 @@ function WishList() {
   return (
     <div className="wish-list">
       <h1>My Wishlist</h1>
-      {games.length > 0 ? (
+      {games.length > 0 && !loading ? (
         <div className="cards-container">
           {games.map((game, index) => (
             <GameCard key={index} game={game} />
           ))}
         </div>
       ) : (
-        <p>No games added yet.</p>
+        <>{loading ? <></> : <p>No games added yet.</p>}</>
       )}
     </div>
   );

@@ -1,4 +1,8 @@
+import { useNavigate } from "react-router-dom";
+
 export default function UserAccountInfo({ onEditButton, user }) {
+  const navigate = useNavigate();
+
   function formatDate(date) {
     return date.slice(0, 10);
   }
@@ -26,6 +30,7 @@ export default function UserAccountInfo({ onEditButton, user }) {
         <input type="date" value={formatDate(user.dateOfBirth)} disabled />
       </label>
       <button onClick={onEditButton}>Edit Account</button>
+      <button onClick={() => navigate("/")}>Log out</button>
     </div>
   );
 }

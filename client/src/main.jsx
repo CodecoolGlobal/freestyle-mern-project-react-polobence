@@ -7,7 +7,7 @@ import Registration from './Pages/Registration.jsx'
 import Login from './Pages/Login.jsx'
 import Menu from "./Pages/Menu.jsx";
 import Games from "./components/Games/Games.jsx"
-import EditAccountInformation from "./Pages/EditAccountInformation.jsx";
+import Account from "./Pages/Account.jsx";
 
 
 
@@ -34,7 +34,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/u/account/:id",
-        element: <Registration />
+        element: <Account />
       },
     ], 
   },

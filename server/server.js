@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import UserModel from "./model/User.model.js";
-import { fetchGameById, fetchGames } from "../client/src/utils/fetchGames.js";
+import { fetchGameById, fetchGames } from "./utilities/fetchGames.js";
 import { checkIfNewGame } from "./utilities/checkIfNewGame.js";
 
 const app = express();
@@ -28,8 +28,8 @@ app.get("/api/login", async (req, res, next) => {
   try {
     const { username, password } = req.query;
     const user = await UserModel.findOne({ username: username, password: password });
-    if(!user){
-      res.status(400).json({ message: "Wrong username or password!"});
+    if (!user) {
+      res.status(400).json({ message: "Wrong username or password!" });
       return;
     }
     res.json(user);
@@ -42,8 +42,12 @@ app.post("/api/user", async (req, res, next) => {
   try {
     const createdUser = req.body;
     const users = await UserModel.find({});
-    if(users.find(user => user.username === createdUser.username || user.email === createdUser.email)){
-      res.status(400).json({ message: "Username or email already exists!"});
+    if (
+      users.find(
+        (user) => user.username === createdUser.username || user.email === createdUser.email
+      )
+    ) {
+      res.status(400).json({ message: "Username or email already exists!" });
       return;
     }
     const savedUser = await UserModel.create(createdUser);
@@ -57,8 +61,14 @@ app.patch("/api/user/:id", async (req, res, next) => {
   try {
     const users = await UserModel.find({});
     const newUser = req.body;
-    if(users.find(user => req.params.id !== user._id.toString() && (user.email === newUser.email || user.username === newUser.username))){
-      res.status(400).json({ message: "Username or email already exists!"});
+    if (
+      users.find(
+        (user) =>
+          req.params.id !== user._id.toString() &&
+          (user.email === newUser.email || user.username === newUser.username)
+      )
+    ) {
+      res.status(400).json({ message: "Username or email already exists!" });
       return;
     }
     const updatedUser = await UserModel.findOneAndUpdate(
@@ -87,9 +97,7 @@ app.patch("/api/user/addGame/:id", async (req, res) => {
       );
       res.status(200).json(updatedUser);
     } else {
-      res
-        .status(400)
-        .json({ message: "This game is already on your wishlist" });
+      res.status(400).json({ message: "This game is already on your wishlist" });
     }
   } catch (err) {
     //need to update latter to error handling with next
@@ -109,9 +117,7 @@ app.delete("/api/user/:id", async (req, res, next) => {
 
 app.use((err, req, res, next) => {
   console.error(err);
-  res
-    .status(500)
-    .json({ message: "Internal Server Error", error: err.message });
+  res.status(500).json({ message: "Internal Server Error", error: err.message });
 });
 
 app.get("/api/games/:page", async (req, res) => {
@@ -124,7 +130,7 @@ app.get("/api/games/:page", async (req, res) => {
   }
 });
 
-app.get("/api/games/:id", async (req, res) => {
+app.get("/api/games/solo/:id", async (req, res) => {
   const id = req.params.id;
   try {
     const game = await fetchGameById(id);

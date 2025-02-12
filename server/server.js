@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import UserModel from "./model/User.model.js";
 import { fetchGameById, fetchGames } from "../client/src/utils/fetchGames.js";
+import { checkIfNewGame } from "./utilities/checkIfNewGame.js";
 
 const app = express();
 const PORT = 3005;
@@ -71,6 +72,31 @@ app.patch("/api/user/:id", async (req, res, next) => {
   }
 });
 
+app.patch("/api/user/addGame/:id", async (req, res) => {
+  const userId = req.params.id;
+  const gameId = req.body.gameId;
+
+  try {
+    const user = await UserModel.findById(userId);
+    if (checkIfNewGame(user, gameId)) {
+      user.wishlist.push(gameId);
+      const updatedUser = await UserModel.findOneAndUpdate(
+        { _id: userId },
+        { $set: { wishlist: user.wishlist } },
+        { new: true }
+      );
+      res.status(200).json(updatedUser);
+    } else {
+      res
+        .status(400)
+        .json({ message: "This game is already on your wishlist" });
+    }
+  } catch (err) {
+    //need to update latter to error handling with next
+    console.log(err);
+  }
+});
+
 app.delete("/api/user/:id", async (req, res, next) => {
   try {
     const user = await UserModel.findById(req.params.id);
@@ -83,7 +109,9 @@ app.delete("/api/user/:id", async (req, res, next) => {
 
 app.use((err, req, res, next) => {
   console.error(err);
-  res.status(500).json({ message: "Internal Server Error", error: err.message });
+  res
+    .status(500)
+    .json({ message: "Internal Server Error", error: err.message });
 });
 
 app.get("/api/games/:page", async (req, res) => {

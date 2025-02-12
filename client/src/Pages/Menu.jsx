@@ -9,7 +9,7 @@ const Menu = () => {
     <>
     <div className="menu">
       <nav>
-        <Link to={`/u/games`}>
+        <Link to={`/u/games/${userId}`}>
           {userId ? <button>Games</button> : <button disabled>Games</button>}
         </Link>
         <Link to={`/u/wishlist/${userId}`}>

@@ -4,20 +4,34 @@ import Platforms from "../Platforms";
 import Stores from "../Stores";
 import Tags from "../Tags";
 import "./GameCard.css";
+import { useState } from "react";
+import Error from "../Error";
+import AddedGameMessage from "../AddedGameMessage";
 
 function GameCard({ game }) {
+  const [error, setError] = useState(null);
+  const [added, setAdded] = useState(false);
   const { userId } = useParams();
 
   async function handleAddWish() {
     const gameId = game.id.toString();
 
-    const updatedUser = await fetch(`/api/user/${userId}/${gameId}`, {
+    const updatedUser = await fetch(`/api/user/addGame/${userId}`, {
       method: "PATCH",
       headers: {
-        "Content-Type": "application/json"
-      }
-    })
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ gameId: gameId }),
+    }).then((res) => {
+      return res.json();
+    });
 
+    if (updatedUser.message) {
+      setError(updatedUser.message);
+      setAdded(false);
+    } else {
+      setAdded(true);
+    }
   }
 
   return (
@@ -30,6 +44,8 @@ function GameCard({ game }) {
       <Stores game={game} />
       <Platforms game={game} />
       <Tags game={game} />
+      {error && <Error errorMessage={error} />}
+      {added && <AddedGameMessage />}
       <button onClick={handleAddWish}>Add game to wishlist</button>
     </div>
   );

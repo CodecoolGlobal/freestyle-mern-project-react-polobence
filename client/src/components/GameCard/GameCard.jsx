@@ -14,7 +14,6 @@ function GameCard({ game, parent = "games", handleDeleteWish }) {
   const { userId } = useParams();
 
   async function handleAddWish() {
-    setAdded(true);
     const gameId = game.id.toString();
     const updatedUser = await fetch(`/api/user/addGame/${userId}`, {
       method: "PATCH",
@@ -25,9 +24,10 @@ function GameCard({ game, parent = "games", handleDeleteWish }) {
     }).then((res) => {
       return res.json();
     });
-
     if (updatedUser.message) {
       setError(updatedUser.message);
+    }else{
+      setAdded(true);
     }
   }
 

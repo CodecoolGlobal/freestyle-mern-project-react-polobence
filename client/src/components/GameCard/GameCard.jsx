@@ -8,7 +8,7 @@ import { useState } from "react";
 import Error from "../Error";
 import AddedGameMessage from "../AddedGameMessage";
 
-function GameCard({ game }) {
+function GameCard({ game, parent = "games", handleDeleteWish }) {
   const [error, setError] = useState(null);
   const [added, setAdded] = useState(false);
   const { userId } = useParams();
@@ -43,7 +43,11 @@ function GameCard({ game }) {
       <Tags game={game} />
       {error && <Error errorMessage={error} />}
       {added && !error && <AddedGameMessage />}
-      <button onClick={handleAddWish}>Add game to wishlist</button>
+      {parent === "wishlist" ? (
+        <button onClick={() => handleDeleteWish(game)}>Delete game from wishlist</button>
+      ) : (
+        <button onClick={handleAddWish}>Add game to wishlist</button>
+      )}
     </div>
   );
 }

@@ -9,6 +9,27 @@ function WishList() {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  async function handleDeleteWish (game) {
+    try{
+      const id = game.id.toString();
+      const userRes = await fetch(`/api/user/${userID}`);
+      const user = await userRes.json();
+      user.wishlist = user.wishlist.filter(gameID => gameID !== id);
+      const patchRes = await fetch(`/api/wishlist/${userID}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(user)
+      });
+      const updated = await patchRes.json();
+      console.log(updated);
+      setGameIDs([...user.wishlist]);
+    } catch (error){
+      console.error(error);
+    }
+  }
+
   useEffect(() => {
     async function fetchWishes() {
       try {
@@ -56,7 +77,7 @@ function WishList() {
       {games.length > 0 && !loading ? (
         <div className="cards-container">
           {games.map((game, index) => (
-            <GameCard key={index} game={game} />
+            <GameCard key={index} game={game} handleDeleteWish={handleDeleteWish} parent="wishlist"/>
           ))}
         </div>
       ) : (

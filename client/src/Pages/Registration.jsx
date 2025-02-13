@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Error from "../components/Error";
+import Error from "../components/Error/Error";
 
 
 function Registration() {

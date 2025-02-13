@@ -5,8 +5,8 @@ import Stores from "../Stores";
 import Tags from "../Tags";
 import "./GameCard.css";
 import { useState } from "react";
-import Error from "../Error";
-import AddedGameMessage from "../AddedGameMessage";
+import Error from "../Error/Error";
+import AddedGameMessage from "../AddedGameMessage/AddedGameMessage";
 
 function GameCard({ game, parent = "games", handleDeleteWish }) {
   const [error, setError] = useState(null);

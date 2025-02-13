@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useUser } from "../../context/UserContext";
-import Error from "../../components/Error";
+import { useUser } from "../context/UserContext";
+import Error from "../components/Error/Error";
 import "./Login.css";
 
 export default function Login() {

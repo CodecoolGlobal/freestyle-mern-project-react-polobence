@@ -1,0 +1,5 @@
+.added {
+  background-color: rgb(70, 185, 70);
+  border: 3px solid green;
+  width: fit-content;
+}

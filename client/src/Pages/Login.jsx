@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useUser } from "../context/UserContext";
-import Error from "../components/Error";
+import Error from "../components/Error/Error";
 
 export default function Login() {
   const [username, setUsername] = useState("lajcsi");

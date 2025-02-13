@@ -1,3 +1,5 @@
+import "./ConfirmDelete.css";
+
 export default function ConfirmDelete ({ handleDelete, handleCancel }) {
 
     return (

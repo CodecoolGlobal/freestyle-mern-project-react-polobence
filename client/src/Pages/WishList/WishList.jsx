@@ -15,15 +15,16 @@ function WishList() {
       const userRes = await fetch(`/api/user/${userID}`);
       const user = await userRes.json();
       user.wishlist = user.wishlist.filter(gameID => gameID !== id);
-      const patchRes = await fetch(`/api/wishlist/${userID}`, {
+      await fetch(`/api/wishlist/${userID}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(user)
       });
-      const updated = await patchRes.json();
-      console.log(updated);
+      if(user.wishlist.length === 0){
+        setGames([]);
+      }
       setGameIDs([...user.wishlist]);
     } catch (error){
       console.error(error);

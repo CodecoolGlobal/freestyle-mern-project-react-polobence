@@ -64,6 +64,7 @@ function Registration() {
             />
           </label>
           <button type="submit">Create Account</button>
+          <button onClick={() => navigate("/")}>Back</button>
         </form>
       </div>
     </>

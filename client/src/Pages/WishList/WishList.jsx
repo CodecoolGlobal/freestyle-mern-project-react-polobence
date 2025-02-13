@@ -5,7 +5,7 @@ import GameCard from "../../components/GameCard/GameCard";
 
 function WishList() {
   const { userID } = useParams();
-  const [gameIDs, setGameIDs] = useState([]);
+  const [gameIDs, setGameIDs] = useState(null);
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -23,10 +23,6 @@ function WishList() {
   }, [userID]);
 
   useEffect(() => {
-    if (gameIDs.length === 0) {
-      setLoading(false);
-      return;
-    }
 
     async function fetchGamesByIds() {
       try {
@@ -42,7 +38,14 @@ function WishList() {
       }
     }
 
-    fetchGamesByIds();
+    if(gameIDs){
+      if(gameIDs.length === 0){
+        setLoading(false);
+        return;
+      }
+      fetchGamesByIds();
+    }
+    
   }, [gameIDs]);
 
   if (loading) return <Loading />;
@@ -57,7 +60,7 @@ function WishList() {
           ))}
         </div>
       ) : (
-        <>{loading ? <></> : <p>No games added yet.</p>}</>
+        <>{loading && games.length !== 0 ? <></> : <p>No games added yet.</p>}</>
       )}
     </div>
   );

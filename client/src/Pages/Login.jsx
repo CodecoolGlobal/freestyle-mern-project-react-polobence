@@ -12,9 +12,9 @@ export default function Login() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const user = await fetch(`/api/login?username=${username}&password=${password}`).then((res) =>
-      res.json()
-    );
+    const user = await fetch(
+      `/api/login?username=${username}&password=${password}`
+    ).then((res) => res.json());
     if (user.message) {
       setError(user.message);
       return;
@@ -30,11 +30,19 @@ export default function Login() {
         <form action="submit" onSubmit={handleSubmit}>
           <label>
             Username:
-            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
           </label>
           <label>
             Password:
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </label>
           <button type="submit">Login</button>
         </form>

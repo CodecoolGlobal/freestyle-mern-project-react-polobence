@@ -1,7 +1,8 @@
+import "./EditAccountInformation.css"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Error from "./Error";
-import ConfirmDelete from "./ConfirmDelete";
+import Error from "../Error";
+import ConfirmDelete from "../ConfirmDelete";
 
 function EditAccountInformation({ handleBackButton, user }) {
       const [newName, setNewName] = useState(user.name);

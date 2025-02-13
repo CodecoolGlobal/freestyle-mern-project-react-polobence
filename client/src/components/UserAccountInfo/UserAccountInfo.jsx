@@ -1,3 +1,4 @@
+import "./UserAccountInfo.css"
 import { useNavigate } from "react-router-dom";
 
 export default function UserAccountInfo({ onEditButton, user }) {

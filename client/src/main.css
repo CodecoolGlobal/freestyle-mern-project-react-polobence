@@ -18,6 +18,11 @@ body {
   flex: 1;
   min-height: 100vh;
 }
+
+.logo {
+  text-decoration: none;
+}
+
 nav {
   display: flex;
   align-items: center;
@@ -25,11 +30,9 @@ nav {
   border-bottom: 5px solid red;
 }
 
-nav h1{
+nav h1 {
   font-size: 40px;
 }
-
-
 
 .footer {
   flex: auto;

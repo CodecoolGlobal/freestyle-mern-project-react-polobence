@@ -9,6 +9,8 @@ const Menu = () => {
     <>
       <div className="menu">
         <nav>
+          <h1>Gamer's Wish Vault </h1>
+          <div className="nav-buttons">
           <Link to={`/u/games/${userId}`}>
             {userId ? <button>Games</button> : <button disabled>Games</button>}
           </Link>
@@ -18,6 +20,7 @@ const Menu = () => {
           <Link to={`/u/account/${userId}`}>
             {userId ? <button>My Account</button> : <button disabled>My Account</button>}
           </Link>
+          </div>
         </nav>
         <div className="main">
           <Outlet />

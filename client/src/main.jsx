@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./main.css";
 import { UserProvider } from "./context/UserContext.jsx";
 import Registration from "./Pages/Registration.jsx";
-import Login from "./Pages/Login.jsx";
+import Login from "./Pages/Login/Login.jsx";
 import Menu from "./Pages/Menu.jsx";
 import Games from "./components/Games/Games.jsx";
 import Account from "./Pages/Account.jsx";

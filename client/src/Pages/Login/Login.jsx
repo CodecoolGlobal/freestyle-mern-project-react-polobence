@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useUser } from "../context/UserContext";
-import Error from "../components/Error";
+import { useUser } from "../../context/UserContext";
+import Error from "../../components/Error";
+import "./Login.css";
 
 export default function Login() {
   const [username, setUsername] = useState("lajcsi");
@@ -12,9 +13,9 @@ export default function Login() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const user = await fetch(
-      `/api/login?username=${username}&password=${password}`
-    ).then((res) => res.json());
+    const user = await fetch(`/api/login?username=${username}&password=${password}`).then((res) =>
+      res.json()
+    );
     if (user.message) {
       setError(user.message);
       return;
@@ -24,35 +25,27 @@ export default function Login() {
   }
 
   return (
-    <>
+    <div className="login-page">
       {error && <Error errorMessage={error} />}
       <div className="login">
         <form action="submit" onSubmit={handleSubmit}>
           <label>
             Username:
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
+            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
           </label>
           <label>
             Password:
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
           </label>
           <button type="submit">Login</button>
         </form>
       </div>
-      <div>
-        Dont have an account yet?
-        <Link to="/register">
+      <div className="sign-up">
+        <p>Dont have an account yet?</p>
+        <Link className="link" to="/register">
           <button>Sign up</button>
         </Link>
       </div>
-    </>
+    </div>
   );
 }

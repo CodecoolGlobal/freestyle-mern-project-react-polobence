@@ -100,8 +100,21 @@ app.patch("/api/user/addGame/:id", async (req, res) => {
       res.status(400).json({ message: "This game is already on your wishlist" });
     }
   } catch (err) {
-    //need to update latter to error handling with next
-    console.log(err);
+    next(err);
+  }
+});
+
+app.patch("/api/wishlist/:id", async (req, res, next) => {
+  try {
+    const newUser = req.body;
+    const updatedUser = await UserModel.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: { ...newUser } },
+      { new: true }
+    );
+    res.json(updatedUser);
+  } catch (err) {
+    next(err);
   }
 });
 

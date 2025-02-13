@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Error from "../components/Error/Error";
 
-
 function Registration() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -14,6 +13,16 @@ function Registration() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    if (
+      name === "" ||
+      email === "" ||
+      username === "" ||
+      password === "" ||
+      dateOfBirth === null
+    ) {
+      setError("Must fill out all information!");
+      return;
+    }
     const user = {
       name: name,
       username: username,
@@ -64,7 +73,9 @@ function Registration() {
             />
           </label>
           <button type="submit">Create Account</button>
-          <button onClick={() => navigate("/")}>Back</button>
+          <button type="button" onClick={() => navigate("/")}>
+            Back
+          </button>
         </form>
       </div>
     </>

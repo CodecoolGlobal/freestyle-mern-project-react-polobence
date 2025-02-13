@@ -2,7 +2,7 @@ import "./Footer.css";
 
 function Footer() {
   return (
-    <div className="footer">
+    <footer className="footer">
       <div className="contact">
         <h4>Get in touch:</h4>
         <ul>
@@ -20,7 +20,7 @@ function Footer() {
       <div className="copyrights">
         <h4>©2025 Games&apos; WishMaster</h4>
       </div>
-    </div>
+    </footer>
   );
 }
 

@@ -1,0 +1,57 @@
+.account {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #121212;
+    color: #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+    
+  .deleteAccount {
+    margin-top: 20px;
+  }
+  
+  .deleteAccount button {
+    padding: 10px 20px;
+    background-color: #e63946; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .deleteAccount button:hover {
+    background-color: #d32f2f; 
+  }
+  
+  .account button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #457b9d; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+ 
+  .account button:hover {
+    background-color: #1d3557; 
+  }
+   .account .red-button{
+    background-color : red;
+  }
+  .account .red-button:hover {
+    background-color: rgba(255, 0, 0, 0.233);
+  }
+
+  .error {
+    color: #e63946; 
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  

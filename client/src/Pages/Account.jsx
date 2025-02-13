@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import UserAccountInfo from "../components/UserAccountInfo/UserAccountInfo";
-import EditAccountInformation from "../components/EditAccountInformation/EditAccountInformation";
+import UserAccountInfo from "../components/Account/UserAccountInfo/UserAccountInfo";
+import EditAccountInformation from "../components/Account/EditAccountInformation/EditAccountInformation";
 
 export default function Account() {
   const { id } = useParams();

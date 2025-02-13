@@ -1,8 +1,9 @@
 import "./EditAccountInformation.css"
+import "../Account.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Error from "../Error/Error";
-import ConfirmDelete from "../ConfirmDelete/ConfirmDelete";
+import Error from "../../Error/Error";
+import ConfirmDelete from "../../ConfirmDelete/ConfirmDelete";
 
 function EditAccountInformation({ handleBackButton, user }) {
       const [newName, setNewName] = useState(user.name);
@@ -52,7 +53,7 @@ function EditAccountInformation({ handleBackButton, user }) {
       }
 
   return (
-    <>
+    <div className="account">
     {error && <Error errorMessage={error}/>}
     <div className="editAccount">
       <form action="submit" onSubmit={handleSubmit}>
@@ -80,12 +81,12 @@ function EditAccountInformation({ handleBackButton, user }) {
       </form>
     </div>
     <div className="deleteAccount">
-      <button onClick={() => setConfirmDelete(true)}>DELETE</button>
+      <button className="red-button" onClick={() => setConfirmDelete(true)}>DELETE</button>
     </div>
     {confirmDelete && (<ConfirmDelete handleDelete={handleDelete} handleCancel={handleCancel}/>)}
 
-    <button onClick={handleBackButton}>Back</button>
-    </>
+    <button className="red-button" onClick={handleBackButton}>Back</button>
+    </div>
   );
 }
 

@@ -1,4 +1,4 @@
-import "./UserAccountInfo.css"
+import "./UserAccountInfo.css";
 import { useNavigate } from "react-router-dom";
 
 export default function UserAccountInfo({ onEditButton, user }) {
@@ -10,26 +10,11 @@ export default function UserAccountInfo({ onEditButton, user }) {
 
   return (
     <div className="userAccountInfo">
-      <label>
-        Name:
-        <input type="text" value={user.name} disabled />
-      </label>
-      <label>
-        Email:
-        <input type="text" value={user.email} disabled />
-      </label>
-      <label>
-        Username:
-        <input type="text" value={user.username} disabled />
-      </label>
-      <label>
-        Password:
-        <input type="text" value={user.password} disabled />
-      </label>
-      <label>
-        Date of birth:
-        <input type="date" value={formatDate(user.dateOfBirth)} disabled />
-      </label>
+      <h4>Name: {user.name}</h4>
+      <h4>Email: {user.email}</h4>
+      <h4>Username: {user.username}</h4>
+      <h4>Password: ●●●●●●●●</h4>
+      <h4>Date of birth: {formatDate(user.dateOfBirth)}</h4>
       <button onClick={onEditButton}>Edit Account</button>
       <button onClick={() => navigate("/")}>Log out</button>
     </div>

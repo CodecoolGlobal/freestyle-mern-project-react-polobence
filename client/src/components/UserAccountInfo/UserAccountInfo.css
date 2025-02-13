@@ -1,20 +1,3 @@
-.userAccountInfo{
-    border: 2px;
-    border-color: gray;
-}
-
-label{
-display: block;
-margin-bottom: 20px ;
-}
-
-input{
-    margin-left: 5px;
-}
-
-.userAccountInfo input{
-    margin-left: 5px;
-    color: white;
-    background-color: black;
-    
+h4{
+    margin-bottom: 5px;
 }

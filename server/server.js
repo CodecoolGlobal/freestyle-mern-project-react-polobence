@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import UserModel from "./model/User.model.js";
 import { fetchGameById, fetchGames } from "./utilities/fetchGames.js";
 import { checkIfNewGame } from "./utilities/checkIfNewGame.js";
+import { MONGO_DB_CLUSTER_PASSWORD, MONGO_DB_USERNAME } from "./config.js";
 
 const app = express();
 const PORT = 3005;
@@ -10,7 +11,9 @@ const PORT = 3005;
 app.use(express.json());
 
 mongoose
-  .connect("mongodb+srv://dadigecse:admin@wishlist-project.tmtyf.mongodb.net/")
+  .connect(
+    `mongodb+srv://${MONGO_DB_USERNAME}:${MONGO_DB_CLUSTER_PASSWORD}@wishlist-project.tmtyf.mongodb.net/`
+  )
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
 

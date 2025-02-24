@@ -21,10 +21,10 @@ export default function Login() {
       return;
     }
     setUserId(user._id);
-    localStorage.setItem("userId", user.id);
+    localStorage.setItem("userId", user._id);
     localStorage.setItem("username", user.username);
     localStorage.setItem("password", user.password);
-    navigate(`/u/wishlist/${user._id}`);
+    navigate(`/u/wishlist`);
   }
 
   return (

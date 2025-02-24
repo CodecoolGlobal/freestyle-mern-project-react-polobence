@@ -24,15 +24,15 @@ const router = createBrowserRouter([
     element: <Menu />,
     children: [
       {
-        path: "/u/games/:userId",
+        path: "/u/games",
         element: <Games />,
       },
       {
-        path: "/u/wishlist/:userID",
+        path: "/u/wishlist",
         element: <WishList />,
       },
       {
-        path: "/u/account/:id",
+        path: "/u/account",
         element: <Account />,
       },
     ],

@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import Loading from "../../components/Loading/Loading";
 import GameCard from "../../components/GameCard/GameCard";
 
 function WishList() {
-  const { userID } = useParams();
+  const userID = localStorage.getItem("userId");
   const [gameIDs, setGameIDs] = useState(null);
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useUser } from "../../context/UserContext.jsx";
 import Error from "../../components/Error/Error";
 import "./Login.css";
 
@@ -9,7 +8,6 @@ export default function Login() {
   const [password, setPassword] = useState(localStorage.getItem("password") ?? "");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const { setUserId } = useUser();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -20,7 +18,6 @@ export default function Login() {
       setError(user.message);
       return;
     }
-    setUserId(user._id);
     localStorage.setItem("userId", user._id);
     localStorage.setItem("username", user.username);
     localStorage.setItem("password", user.password);

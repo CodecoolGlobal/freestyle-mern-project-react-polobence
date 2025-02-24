@@ -1,9 +1,9 @@
 const API_URL = "https://api.rawg.io/api/games";
 import { API_KEY } from "../config.js";
 
-export async function fetchGames(page) {
+export async function fetchGames(page, pageSize = 10) {
   try {
-    const response = await fetch(`${API_URL}?key=${API_KEY}&page=${page}`);
+    const response = await fetch(`${API_URL}?key=${API_KEY}&page=${page}&page_size=${pageSize}`);
     if (!response.ok) {
       throw new Error("Failed to fetch games");
     }

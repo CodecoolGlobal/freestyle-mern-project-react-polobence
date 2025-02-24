@@ -8,24 +8,24 @@ function WishList() {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  async function handleDeleteWish (game) {
-    try{
+  async function handleDeleteWish(game) {
+    try {
       const id = game.id.toString();
       const userRes = await fetch(`/api/user/${userID}`);
       const user = await userRes.json();
-      user.wishlist = user.wishlist.filter(gameID => gameID !== id);
+      user.wishlist = user.wishlist.filter((gameID) => gameID !== id);
       await fetch(`/api/wishlist/${userID}`, {
         method: "PATCH",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(user)
+        body: JSON.stringify(user),
       });
-      if(user.wishlist.length === 0){
+      if (user.wishlist.length === 0) {
         setGames([]);
       }
       setGameIDs([...user.wishlist]);
-    } catch (error){
+    } catch (error) {
       console.error(error);
     }
   }
@@ -44,11 +44,10 @@ function WishList() {
   }, [userID]);
 
   useEffect(() => {
-
     async function fetchGamesByIds() {
       try {
         const fetchPromises = gameIDs.map((id) =>
-          fetch(`/api/games/solo/${id}`).then((res) => res.json())
+          fetch(`/api/solo/game/${id}`).then((res) => res.json())
         );
         const gamesData = await Promise.all(fetchPromises);
         setGames(gamesData);
@@ -59,14 +58,13 @@ function WishList() {
       }
     }
 
-    if(gameIDs){
-      if(gameIDs.length === 0){
+    if (gameIDs) {
+      if (gameIDs.length === 0) {
         setLoading(false);
         return;
       }
       fetchGamesByIds();
     }
-    
   }, [gameIDs]);
 
   if (loading) return <Loading />;
@@ -77,7 +75,12 @@ function WishList() {
       {games.length > 0 && !loading ? (
         <div className="cards-container">
           {games.map((game, index) => (
-            <GameCard key={index} game={game} handleDeleteWish={handleDeleteWish} parent="wishlist"/>
+            <GameCard
+              key={index}
+              game={game}
+              handleDeleteWish={handleDeleteWish}
+              parent="wishlist"
+            />
           ))}
         </div>
       ) : (

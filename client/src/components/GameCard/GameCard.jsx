@@ -25,7 +25,7 @@ function GameCard({ game, parent = "games", handleDeleteWish }) {
     });
     if (updatedUser.message) {
       setError(updatedUser.message);
-    }else{
+    } else {
       setAdded(true);
     }
   }

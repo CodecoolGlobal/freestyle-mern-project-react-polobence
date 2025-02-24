@@ -147,7 +147,7 @@ app.get("/api/games/:page/:pageSize", async (req, res) => {
   }
 });
 
-app.get("/api/games/solo/:id", async (req, res) => {
+app.get("/api/solo/game/:id", async (req, res) => {
   const id = req.params.id;
   try {
     const game = await fetchGameById(id);

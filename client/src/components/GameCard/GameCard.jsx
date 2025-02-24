@@ -1,4 +1,3 @@
-import { useParams } from "react-router-dom";
 import Genres from "../Genres";
 import Platforms from "../Platforms";
 import Stores from "../Stores";
@@ -11,7 +10,7 @@ import AddedGameMessage from "../AddedGameMessage/AddedGameMessage";
 function GameCard({ game, parent = "games", handleDeleteWish }) {
   const [error, setError] = useState(null);
   const [added, setAdded] = useState(false);
-  const { userId } = useParams();
+  const userId = localStorage.getItem("userId");
 
   async function handleAddWish() {
     const gameId = game.id.toString();

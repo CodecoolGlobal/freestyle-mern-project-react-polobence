@@ -1,9 +1,8 @@
 import { Outlet, Link } from "react-router-dom";
-import { useUser } from "../context/UserContext";
 import Footer from "../components/Footer/Footer.jsx";
 
 const Menu = () => {
-  const { userId } = useUser();
+  const userId = localStorage.getItem("userId");
 
   return (
     <>
@@ -13,13 +12,13 @@ const Menu = () => {
             <h1>Gamer's Wish Vault </h1>
           </Link>
           <div className="nav-buttons">
-            <Link to={`/u/games/${userId}`}>
+            <Link to={`/u/games`}>
               {userId ? <button>Games</button> : <button disabled>Games</button>}
             </Link>
-            <Link to={`/u/wishlist/${userId}`}>
+            <Link to={`/u/wishlist`}>
               {userId ? <button>My Wish List</button> : <button disabled>My Wish List</button>}
             </Link>
-            <Link to={`/u/account/${userId}`}>
+            <Link to={`/u/account`}>
               {userId ? <button>My Account</button> : <button disabled>My Account</button>}
             </Link>
           </div>

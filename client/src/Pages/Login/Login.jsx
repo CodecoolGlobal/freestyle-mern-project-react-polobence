@@ -5,8 +5,8 @@ import Error from "../../components/Error/Error";
 import "./Login.css";
 
 export default function Login() {
-  const [username, setUsername] = useState("lajcsi");
-  const [password, setPassword] = useState("cucc");
+  const [username, setUsername] = useState(localStorage.getItem("username") ?? "");
+  const [password, setPassword] = useState(localStorage.getItem("password") ?? "");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const { setUserId } = useUser();
@@ -21,7 +21,10 @@ export default function Login() {
       return;
     }
     setUserId(user._id);
-    navigate(`/u/wishlist/${user._id}`);
+    localStorage.setItem("userId", user._id);
+    localStorage.setItem("username", user.username);
+    localStorage.setItem("password", user.password);
+    navigate(`/u/wishlist`);
   }
 
   return (

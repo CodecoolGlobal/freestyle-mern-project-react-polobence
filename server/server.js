@@ -136,10 +136,11 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: "Internal Server Error", error: err.message });
 });
 
-app.get("/api/games/:page", async (req, res) => {
+app.get("/api/games/:page/:pageSize", async (req, res) => {
   const page = req.params.page;
+  const pageSize = req.params.pageSize;
   try {
-    const games = await fetchGames(page);
+    const games = await fetchGames(page, pageSize);
     res.json(games);
   } catch (error) {
     res.status(500).json({ message: "Error fetching games", error: error });

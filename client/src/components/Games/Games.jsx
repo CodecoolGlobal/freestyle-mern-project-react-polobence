@@ -3,16 +3,18 @@ import Loading from "../Loading/Loading";
 import GameCard from "../GameCard/GameCard";
 import "./Games.css";
 import NavButtons from "../NavButtons/NavButtons";
+import PageSizeControl from "../PageSizeControl/PageSizeControl";
 
 function Games() {
   const [games, setGames] = useState(null);
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const data = await fetch(`/api/games/${page}`).then((res) => res.json());
+        const data = await fetch(`/api/games/${page}/${pageSize}`).then((res) => res.json());
         setGames(data);
       } catch (error) {
         console.error(error);
@@ -21,7 +23,7 @@ function Games() {
       }
     }
     fetchData();
-  }, [page]);
+  }, [page, pageSize]);
 
   function handleNextPage() {
     setPage((prevPage) => prevPage + 1);
@@ -42,6 +44,8 @@ function Games() {
       <h1>Total games found: {games.count}</h1>
 
       <NavButtons onStepNext={handleNextPage} onStepPrev={handlePrevPage} page={page} />
+
+      <PageSizeControl pageSize={pageSize} setPageSize={setPageSize} />
 
       <div className="cards-container">
         {games.results.map((game) => (

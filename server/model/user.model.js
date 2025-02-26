@@ -3,13 +3,11 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const UserSchema = new Schema({
-  name: String,
-  username: String,
-  password: String,
-  email: String,
-  dateOfBirth: { type: Date, 
-    default: Date.now
-  },
+  name: { type: String },
+  username: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  dateOfBirth: { type: Date, default: Date.now },
   wishlist: {
     type: Array,
     default: [],

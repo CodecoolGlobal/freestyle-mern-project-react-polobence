@@ -43,6 +43,17 @@ export async function fetchPlatforms() {
   }
 }
 
-export async function fetchSearchedGames() {
-  
+export async function fetchSearchedGames(search, page, pageSize) {
+  try {
+    const response = await fetch(
+      `${API}?key=${API_KEY}&search=${search}&page=${page}&page_size=${pageSize}`
+    );
+    if (!response.ok) {
+      throw new Error("Failed to fetch games");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 }

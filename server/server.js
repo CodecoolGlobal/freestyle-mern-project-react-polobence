@@ -198,10 +198,13 @@ app.get("/api/platforms", async (req, res) => {
     res.status(500).json({ message: "Error fetching platform", error: error });
   }
 });
-app.get("/api/search/:searchInput", async (req, res) => {
-  search = req.params.searchInput;
+app.get("/api/search/:searchInput/:page/:page_size", async (req, res) => {
+  const search = req.params.searchInput;
+  const page=req.params?.page??1;
+  const pageSize=req.params?.page_size??10;
+  
   try {
-    const searchedGames = await fetchSearchedGames();
+    const searchedGames = await fetchSearchedGames(search,page,pageSize);
     res.json(searchedGames);
   } catch (error) {
     res

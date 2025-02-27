@@ -81,6 +81,7 @@ function EditAccountInformation({ handleBackButton, user }) {
               type="text"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
+              required
             />
           </label>
           <label>

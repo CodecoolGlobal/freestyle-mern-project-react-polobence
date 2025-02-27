@@ -182,8 +182,15 @@ app.use((err, req, res, next) => {
 app.get("/api/games/:page/:pageSize", async (req, res) => {
   const page = req.params.page;
   const pageSize = req.params.pageSize;
+  const { store, platform, genre } = req.query;
+  const filter = {
+    store: store ?? null,
+    platform: platform ?? null,
+    genre: genre ?? null,
+  };
+
   try {
-    const games = await fetchGames(page, pageSize);
+  const games= await fetchGames(page,pageSize,filter)
     res.json(games);
   } catch (error) {
     res.status(500).json({ message: "Error fetching games", error: error });
@@ -227,23 +234,7 @@ app.get("/api/platforms", async (req, res) => {
   }
 });
 
-app.get("/api/filtered/games/:page/:pageSize", async (req, res) => {
-  const page=req.params.page;
-  const pageSize=req.params.pageSize;
-  const { store, platform, genre } = req.query;
-  const filter = {
-    store: store ?? null,
-    platform: platform ?? null,
-    genre: genre ?? null,
-  };
 
-  try { 
-    const games = await fetchGameWithFilters(filter, page, pageSize);
-    res.json(games);
-  } catch (error) {
-    res.status(500).json({ message: "Error filtering games", error: error });
-  }
-});
 
 app.get("/api/search/:searchInput/:page/:page_size", async (req, res) => {
   const search = req.params.searchInput;

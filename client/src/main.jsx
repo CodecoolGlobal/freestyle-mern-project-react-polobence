@@ -5,7 +5,7 @@ import "./main.css";
 import Registration from "./Pages/Registration.jsx";
 import Login from "./Pages/Login/Login.jsx";
 import Menu from "./Pages/Menu.jsx";
-import Games from "./components/Games/Games.jsx";
+import Games from "./Pages/Games/Games.jsx";
 import Account from "./Pages/Account.jsx";
 import WishList from "./Pages/WishList/WishList.jsx";
 

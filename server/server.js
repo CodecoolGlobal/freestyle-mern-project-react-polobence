@@ -227,12 +227,19 @@ app.get("/api/platforms", async (req, res) => {
   }
 });
 
-app.get("/api/filtered/games", async (req, res) => {
-  const {store, platform, genre}=req.query;
-  
-  try {
-    const platforms = await fetchGameWithFilters(filter, page, pageSize);
-    res.json(platforms);
+app.get("/api/filtered/games/:page/:pageSize", async (req, res) => {
+  const page=req.params.page;
+  const pageSize=req.params.pageSize;
+  const { store, platform, genre } = req.query;
+  const filter = {
+    store: store ?? null,
+    platform: platform ?? null,
+    genre: genre ?? null,
+  };
+
+  try { 
+    const games = await fetchGameWithFilters(filter, page, pageSize);
+    res.json(games);
   } catch (error) {
     res.status(500).json({ message: "Error filtering games", error: error });
   }

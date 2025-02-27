@@ -5,7 +5,7 @@ import "./Login.css";
 
 export default function Login() {
   const [username, setUsername] = useState(localStorage.getItem("username") ?? "");
-  const [password, setPassword] = useState(localStorage.getItem("password") ?? "");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 

@@ -3,7 +3,9 @@ import { API_KEY } from "../config.js";
 
 export async function fetchGames(page, pageSize = 10) {
   try {
-    const response = await fetch(`${API_URL}?key=${API_KEY}&page=${page}&page_size=${pageSize}`);
+    const response = await fetch(
+      `${API_URL}?key=${API_KEY}&page=${page}&page_size=${pageSize}`
+    );
     if (!response.ok) {
       throw new Error("Failed to fetch games");
     }
@@ -26,3 +28,5 @@ export async function fetchGameById(id) {
     throw error;
   }
 }
+
+export async function fetchGameWithFilters(filters, page, pageSize = 10) {}

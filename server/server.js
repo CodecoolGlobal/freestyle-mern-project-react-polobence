@@ -234,7 +234,7 @@ app.get("/api/filtered/games", async (req, res) => {
     const platforms = await fetchGameWithFilters(filter, page, pageSize);
     res.json(platforms);
   } catch (error) {
-    res.status(500).json({ message: "Error filtering", error: error });
+    res.status(500).json({ message: "Error filtering games", error: error });
   }
 });
 

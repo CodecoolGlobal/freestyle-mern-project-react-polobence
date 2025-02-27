@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import Loading from "../Loading/Loading";
-import GameCard from "../GameCard/GameCard";
+import Loading from "../../components/Loading/Loading";
+import GameCard from "../../components/GameCard/GameCard";
 import "./Games.css";
-import NavButtons from "../NavButtons/NavButtons";
-import PageSizeControl from "../PageSizeControl/PageSizeControl";
-import FilterControls from "../FilterControls/FilterControls";
+import NavButtons from "../../components/NavButtons/NavButtons";
+import PageSizeControl from "../../components/PageSizeControl/PageSizeControl";
+import FilterControls from "../../components/FilterControls/FilterControls";
 
 const fetchGenres = async () => {
   try {

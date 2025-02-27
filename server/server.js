@@ -2,7 +2,11 @@ import express from "express";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import UserModel from "./model/User.model.js";
-import { fetchGameById, fetchGames } from "./utilities/fetchGames.js";
+import {
+  fetchGameById,
+  fetchGames,
+  fetchGameWithFilters,
+} from "./utilities/fetchGames.js";
 import { checkIfNewGame } from "./utilities/checkIfNewGame.js";
 import { MONGO_DB_CLUSTER_PASSWORD, MONGO_DB_USERNAME } from "./config.js";
 import {
@@ -58,14 +62,23 @@ app.post("/api/user", async (req, res, next) => {
   try {
     const { name, username, email, password } = req.body;
 
-    const existingUser = await UserModel.findOne({ $or: [{ username }, { email }] });
+    const existingUser = await UserModel.findOne({
+      $or: [{ username }, { email }],
+    });
 
     if (existingUser) {
-      return res.status(400).json({ message: "Username or email already exists!" });
+      return res
+        .status(400)
+        .json({ message: "Username or email already exists!" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new UserModel({ name, username, email, password: hashedPassword });
+    const newUser = new UserModel({
+      name,
+      username,
+      email,
+      password: hashedPassword,
+    });
 
     const savedUser = await newUser.save();
     res.json(savedUser);
@@ -89,7 +102,9 @@ app.patch("/api/user/:id", async (req, res, next) => {
     });
 
     if (existingUser) {
-      return res.status(400).json({ message: "Username or email already exists!" });
+      return res
+        .status(400)
+        .json({ message: "Username or email already exists!" });
     }
 
     let hashedPassword = user.password;
@@ -211,13 +226,25 @@ app.get("/api/platforms", async (req, res) => {
     res.status(500).json({ message: "Error fetching platform", error: error });
   }
 });
-app.get("/api/search/:searchInput/:page/:page_size", async (req, res) => {
-  const search = req.params.searchInput;
-  const page=req.params.page;
-  const pageSize=req.params.page_size;
+
+app.get("/api/filtered/games", async (req, res) => {
+  const {store, platform, genre}=req.query;
   
   try {
-    const searchedGames = await fetchSearchedGames(search,page,pageSize);
+    const platforms = await fetchGameWithFilters(filter, page, pageSize);
+    res.json(platforms);
+  } catch (error) {
+    res.status(500).json({ message: "Error filtering", error: error });
+  }
+});
+
+app.get("/api/search/:searchInput/:page/:page_size", async (req, res) => {
+  const search = req.params.searchInput;
+  const page = req.params.page;
+  const pageSize = req.params.page_size;
+
+  try {
+    const searchedGames = await fetchSearchedGames(search, page, pageSize);
     res.json(searchedGames);
   } catch (error) {
     res

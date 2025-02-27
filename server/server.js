@@ -200,8 +200,8 @@ app.get("/api/platforms", async (req, res) => {
 });
 app.get("/api/search/:searchInput/:page/:page_size", async (req, res) => {
   const search = req.params.searchInput;
-  const page=req.params?.page??1;
-  const pageSize=req.params?.page_size??10;
+  const page=req.params.page;
+  const pageSize=req.params.page_size;
   
   try {
     const searchedGames = await fetchSearchedGames(search,page,pageSize);

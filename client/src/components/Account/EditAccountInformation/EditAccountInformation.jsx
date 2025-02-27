@@ -61,19 +61,11 @@ function EditAccountInformation({ handleBackButton, user }) {
         <form action="submit" onSubmit={handleSubmit}>
           <label>
             Name:
-            <input
-              type="text"
-              value={newName}
-              onChange={(e) => setNewName(e.target.value)}
-            />
+            <input type="text" value={newName} onChange={(e) => setNewName(e.target.value)} />
           </label>
           <label>
             Email:
-            <input
-              type="text"
-              value={newEmail}
-              onChange={(e) => setNewEmail(e.target.value)}
-            />
+            <input type="text" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} />
           </label>
           <label>
             Username:
@@ -103,12 +95,7 @@ function EditAccountInformation({ handleBackButton, user }) {
           DELETE
         </button>
       </div>
-      {confirmDelete && (
-        <ConfirmDelete
-          handleDelete={handleDelete}
-          handleCancel={handleCancel}
-        />
-      )}
+      {confirmDelete && <ConfirmDelete handleDelete={handleDelete} handleCancel={handleCancel} />}
 
       <button className="red-button" onClick={handleBackButton}>
         Back

@@ -13,13 +13,7 @@ function Registration() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (
-      name === "" ||
-      email === "" ||
-      username === "" ||
-      password === "" ||
-      dateOfBirth === null
-    ) {
+    if (name === "" || email === "" || username === "" || password === "" || dateOfBirth === null) {
       setError("Must fill out all information!");
       return;
     }
@@ -63,14 +57,11 @@ function Registration() {
           </label>
           <label>
             Please enter your password:
-            <input type="text" onChange={(e) => setPassword(e.target.value)} />
+            <input type="password" onChange={(e) => setPassword(e.target.value)} />
           </label>
           <label>
             Please enter your date of birth:
-            <input
-              type="date"
-              onChange={(e) => setdateOfBirth(e.target.value)}
-            />
+            <input type="date" onChange={(e) => setdateOfBirth(e.target.value)} />
           </label>
           <button type="submit">Create Account</button>
           <button type="button" onClick={() => navigate("/")}>

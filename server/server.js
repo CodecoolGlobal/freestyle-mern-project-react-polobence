@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 import UserModel from "./model/User.model.js";
 import { fetchGameById, fetchGames } from "./utilities/fetchGames.js";
 import { checkIfNewGame } from "./utilities/checkIfNewGame.js";
@@ -20,7 +21,7 @@ mongoose
 app.get("/api/user/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
-    const user = await UserModel.findById({ _id: id });
+    const user = await UserModel.findById({ _id: id }).select("-password");
     res.json(user);
   } catch (err) {
     next(err);
@@ -30,11 +31,17 @@ app.get("/api/user/:id", async (req, res, next) => {
 app.get("/api/login", async (req, res, next) => {
   try {
     const { username, password } = req.query;
-    const user = await UserModel.findOne({ username: username, password: password });
+
+    const user = await UserModel.findOne({ username });
     if (!user) {
-      res.status(400).json({ message: "Wrong username or password!" });
-      return;
+      return res.status(400).json({ message: "Wrong username or password!" });
     }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Wrong username or password!" });
+    }
+
     res.json(user);
   } catch (err) {
     next(err);
@@ -43,17 +50,18 @@ app.get("/api/login", async (req, res, next) => {
 
 app.post("/api/user", async (req, res, next) => {
   try {
-    const createdUser = req.body;
-    const users = await UserModel.find({});
-    if (
-      users.find(
-        (user) => user.username === createdUser.username || user.email === createdUser.email
-      )
-    ) {
-      res.status(400).json({ message: "Username or email already exists!" });
-      return;
+    const { name, username, email, password } = req.body;
+
+    const existingUser = await UserModel.findOne({ $or: [{ username }, { email }] });
+
+    if (existingUser) {
+      return res.status(400).json({ message: "Username or email already exists!" });
     }
-    const savedUser = await UserModel.create(createdUser);
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new UserModel({ name, username, email, password: hashedPassword });
+
+    const savedUser = await newUser.save();
     res.json(savedUser);
   } catch (err) {
     next(err);
@@ -62,23 +70,33 @@ app.post("/api/user", async (req, res, next) => {
 
 app.patch("/api/user/:id", async (req, res, next) => {
   try {
-    const users = await UserModel.find({});
-    const newUser = req.body;
-    if (
-      users.find(
-        (user) =>
-          req.params.id !== user._id.toString() &&
-          (user.email === newUser.email || user.username === newUser.username)
-      )
-    ) {
-      res.status(400).json({ message: "Username or email already exists!" });
-      return;
+    const { name, username, email, password } = req.body;
+
+    const user = await UserModel.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found!" });
     }
-    const updatedUser = await UserModel.findOneAndUpdate(
-      { _id: req.params.id },
-      { $set: { ...newUser } },
+
+    const existingUser = await UserModel.findOne({
+      _id: { $ne: req.params.id },
+      $or: [{ username }, { email }],
+    });
+
+    if (existingUser) {
+      return res.status(400).json({ message: "Username or email already exists!" });
+    }
+
+    let hashedPassword = user.password;
+    if (password && password !== user.password) {
+      hashedPassword = await bcrypt.hash(password, 10);
+    }
+
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      req.params.id,
+      { name, username, email, password: hashedPassword },
       { new: true }
-    );
+    ).select("-password");
+
     res.json(updatedUser);
   } catch (err) {
     next(err);

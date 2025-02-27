@@ -1,78 +1,76 @@
 import { useState, useEffect } from "react";
+import "./FilterControls.css";
 
-const fetchGenres = async () => {
-  try {
-    const res = await fetch("/api/genres");
-    return await res.json();
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-const fetchStores = async () => {
-  try {
-    const res = await fetch("/api/stores");
-    return await res.json();
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-const fetchPlatforms = async () => {
-  try {
-    const res = await fetch("/api/platforms");
-    return await res.json();
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-export default function FilterControls({ handleSearch }) {
-  const [genres, setGenres] = useState(null);
-  const [stores, setStores] = useState(null);
-  const [platforms, setPlatforms] = useState(null);
+export default function FilterControls({ handleSearch, handleFilters, genres, stores, platforms}) {
   const [genre, setGenre] = useState("default");
   const [store, setStore] = useState("default");
   const [platform, setPlatform] = useState("default");
   const [search, setSearch] = useState("");
 
-  useEffect(() => {
-    async function fetchData() {
-      setGenres(await fetchGenres());
-      setStores(await fetchStores());
-      setPlatforms(await fetchPlatforms());
-    }
+  function onSearch() {
+    setGenre("default");
+    setPlatform("default");
+    setStore("default");
+    handleSearch(search);
+  }
 
-    try {
-      fetchData();
-    } catch (err) {
-      console.error(err);
-    }
-  }, []);
+  useEffect(() => {
+    const filters = {
+      genre: genre === "default" ? null : genre,
+      store: store === "default" ? null : store,
+      platform: platform === "default" ? null : platform,
+    };
+    setSearch("");
+    handleFilters(filters);
+  }, [genre, store, platform]);
 
   return (
     <>
-    {genres && stores && platforms &&
-    <div className="filterControls">
-      <select value={genre} onChange={(e) => setGenre(e.target.value)}>
-        <option value="default">Select a genre!</option>
-        {genres.map((genre, index) => <option key={index} value={genre}>{genre}</option>)}
-      </select>
+      {genres && stores && platforms && (
+        <div className="filterControls">
+          <div className="selectDiv">
+            <select value={genre} onChange={(e) => setGenre(e.target.value)}>
+              <option value="default">Select a genre!</option>
+              {genres.map((genre, index) => (
+                <option key={index} value={genre.id}>
+                  {genre.name}
+                </option>
+              ))}
+            </select>
 
-      <select value={store} onChange={(e) => setStore(e.target.value)}>
-        <option value="default">Select a store!</option>
-        {stores.map((store, index) => <option key={index} value={store}>{store}</option>)}
-      </select>
+            <select value={store} onChange={(e) => setStore(e.target.value)}>
+              <option value="default">Select a store!</option>
+              {stores.map((store, index) => (
+                <option key={index} value={store.id}>
+                  {store.name}
+                </option>
+              ))}
+            </select>
 
-      <select value={platform} onChange={(e) => setPlatform(e.target.value)}>
-        <option value="default">Select a platform!</option>
-        {platforms.map((platform, index) => <option key={index} value={platform}>{platform}</option>)}
-      </select>
+            <select
+              value={platform}
+              onChange={(e) => setPlatform(e.target.value)}
+            >
+              <option value="default">Select a platform!</option>
+              {platforms.map((platform, index) => (
+                <option key={index} value={platform.id}>
+                  {platform.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
-      <input type="text" placeholder="Search by name..." onChange={(e) => setSearch(e.target.value)}/>
-      {search ? <button onClick={() => handleSearch(search)}>Search!</button> : <button disabled>Search!</button>}
-    </div>
-    }
+          <input
+            type="text"
+            value={search}
+            placeholder="Search by name..."
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <button onClick={onSearch}>Search!</button>
+
+          <p>Note: Searching and filtering works seperately</p>
+        </div>
+      )}
     </>
   );
 }

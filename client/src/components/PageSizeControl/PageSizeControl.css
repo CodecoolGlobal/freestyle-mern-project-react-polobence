@@ -1,0 +1,11 @@
+.pageSizeControl {
+    margin-left: 10px;
+}
+
+.pageSizeControl select {
+    background-color: rgb(75, 74, 74);
+    color: white;
+    margin-bottom: 15px;
+    margin-right: 10px;
+    margin-left: 10px;
+}

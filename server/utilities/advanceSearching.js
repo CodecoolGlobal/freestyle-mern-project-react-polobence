@@ -5,7 +5,7 @@ export async function fetchGenres() {
   try {
     const response = await fetch(`${API}/genres?key=${API_KEY}`);
     const apiResponse = await response.json();
-    const genres = apiResponse.results.map((genre) => genre.name);
+    const genres = apiResponse.results.map((genre) => { return {name: genre.name, id: genre.id}});
     return genres;
   } catch (error) {
     console.error(error);
@@ -17,7 +17,7 @@ export async function fetchStores() {
   try {
     const response = await fetch(`${API}/stores?key=${API_KEY}`);
     const apiResponse = await response.json();
-    const stores = apiResponse.results.map((store) => store.name);
+    const stores = apiResponse.results.map((store) => {return {name: store.name, id: store.id}});
     return stores;
   } catch (error) {
     console.error(error);
@@ -33,8 +33,8 @@ export async function fetchPlatforms() {
       const response = await fetch(pageUrl);
       const apiResponse = await response.json();
       pageUrl = apiResponse.next;
-      const names = apiResponse.results.map((onePlatform) => onePlatform.name);
-      platforms.push(...names);
+      const pagePlatforms = apiResponse.results.map((onePlatform) => { return {name: onePlatform.name, id: onePlatform.id}});
+      platforms.push(...pagePlatforms);
     } while (pageUrl);
     return platforms;
   } catch (error) {

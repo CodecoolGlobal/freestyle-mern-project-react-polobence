@@ -1,6 +1,8 @@
+import "./PageSizeControl.css"
+
 function PageSizeControl({ pageSize, setPageSize }) {
   return (
-    <div>
+    <div className="pageSizeControl">
       <label>Set games amount per page</label>
       <select onChange={(e) => setPageSize(e.target.value)} value={pageSize}>
         <option value="">Select amount</option>

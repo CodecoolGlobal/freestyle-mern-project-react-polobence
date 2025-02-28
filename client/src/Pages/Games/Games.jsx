@@ -94,6 +94,7 @@ function Games() {
   }
 
   function handleFilters(filters) {
+    setSearch("");
     setFilters(filters);
     setPage(1);
   }

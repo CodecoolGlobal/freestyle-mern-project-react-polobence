@@ -1,5 +1,5 @@
 import { Outlet, Link } from "react-router-dom";
-import Footer from "../components/Footer/Footer.jsx";
+import Footer from "./Footer/Footer.jsx";
 
 const Menu = () => {
   const userId = localStorage.getItem("userId");

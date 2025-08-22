@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import UserModel from "./model/User.model.js";
+import UserModel from "./model/user.model.js";
 import {
   fetchGameById,
   fetchGames,

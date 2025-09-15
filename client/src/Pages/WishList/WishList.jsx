@@ -47,7 +47,7 @@ function WishList() {
     async function fetchGamesByIds() {
       try {
         const fetchPromises = gameIDs.map((id) =>
-          fetch(`/api/solo/game/${id}`).then((res) => res.json())
+          fetch(`/api/game/${id}`).then((res) => res.json())
         );
         const gamesData = await Promise.all(fetchPromises);
         setGames(gamesData);

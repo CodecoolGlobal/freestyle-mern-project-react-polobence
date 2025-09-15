@@ -2,11 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import UserModel from "./model/User.model.js";
-import {
-  fetchGameById,
-  fetchGames,
-  fetchGameWithFilters,
-} from "./utilities/fetchGames.js";
+import { fetchGameById, fetchGames, fetchGameWithFilters } from "./utilities/fetchGames.js";
 import { checkIfNewGame } from "./utilities/checkIfNewGame.js";
 import { MONGO_DB_CLUSTER_PASSWORD, MONGO_DB_USERNAME } from "./config.js";
 import {
@@ -67,9 +63,7 @@ app.post("/api/user", async (req, res, next) => {
     });
 
     if (existingUser) {
-      return res
-        .status(400)
-        .json({ message: "Username or email already exists!" });
+      return res.status(400).json({ message: "Username or email already exists!" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -102,9 +96,7 @@ app.patch("/api/user/:id", async (req, res, next) => {
     });
 
     if (existingUser) {
-      return res
-        .status(400)
-        .json({ message: "Username or email already exists!" });
+      return res.status(400).json({ message: "Username or email already exists!" });
     }
 
     let hashedPassword = user.password;
@@ -139,9 +131,7 @@ app.patch("/api/user/addGame/:id", async (req, res) => {
       );
       res.status(200).json(updatedUser);
     } else {
-      res
-        .status(400)
-        .json({ message: "This game is already on your wishlist" });
+      res.status(400).json({ message: "This game is already on your wishlist" });
     }
   } catch (err) {
     next(err);
@@ -174,9 +164,7 @@ app.delete("/api/user/:id", async (req, res, next) => {
 
 app.use((err, req, res, next) => {
   console.error(err);
-  res
-    .status(500)
-    .json({ message: "Internal Server Error", error: err.message });
+  res.status(500).json({ message: "Internal Server Error", error: err.message });
 });
 
 app.get("/api/games/:page/:pageSize", async (req, res) => {
@@ -190,14 +178,14 @@ app.get("/api/games/:page/:pageSize", async (req, res) => {
   };
 
   try {
-  const games= await fetchGames(page,pageSize,filter)
+    const games = await fetchGames(page, pageSize, filter);
     res.json(games);
   } catch (error) {
     res.status(500).json({ message: "Error fetching games", error: error });
   }
 });
 
-app.get("/api/games/solo/:id", async (req, res) => {
+app.get("/api/game/:id", async (req, res) => {
   const id = req.params.id;
   try {
     const game = await fetchGameById(id);
@@ -234,8 +222,6 @@ app.get("/api/platforms", async (req, res) => {
   }
 });
 
-
-
 app.get("/api/search/:searchInput/:page/:page_size", async (req, res) => {
   const search = req.params.searchInput;
   const page = req.params.page;
@@ -245,9 +231,7 @@ app.get("/api/search/:searchInput/:page/:page_size", async (req, res) => {
     const searchedGames = await fetchSearchedGames(search, page, pageSize);
     res.json(searchedGames);
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Error fetching searched games", error: error });
+    res.status(500).json({ message: "Error fetching searched games", error: error });
   }
 });
 

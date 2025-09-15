@@ -76,6 +76,9 @@ Before you begin, ensure you have the following installed on your system:
 - [Node.js](https://nodejs.org/) (v16 or higher)
 - [npm](https://www.npmjs.com/) (comes with Node.js)
 - [MongoDB](https://www.mongodb.com/try/download/community) (or a MongoDB Atlas account)
+  - Create a MongoDB account and create a cluster
+  - Create a user and get the connection string
+- [RAWG api key](https://rawg.io/login?forward=developer) Create a RAWG account, and request an api key
 
 ### Installation
 

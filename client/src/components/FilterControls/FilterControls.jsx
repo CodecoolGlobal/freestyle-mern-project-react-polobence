@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./FilterControls.css";
 
-export default function FilterControls({ handleSearch, handleFilters, genres, stores, platforms}) {
+export default function FilterControls({ handleSearch, handleFilters, genres, stores, platforms }) {
   const [genre, setGenre] = useState("default");
   const [store, setStore] = useState("default");
   const [platform, setPlatform] = useState("default");
@@ -47,10 +47,7 @@ export default function FilterControls({ handleSearch, handleFilters, genres, st
               ))}
             </select>
 
-            <select
-              value={platform}
-              onChange={(e) => setPlatform(e.target.value)}
-            >
+            <select value={platform} onChange={(e) => setPlatform(e.target.value)}>
               <option value="default">Select a platform!</option>
               {platforms.map((platform, index) => (
                 <option key={index} value={platform.id}>
